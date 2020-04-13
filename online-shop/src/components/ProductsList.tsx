@@ -21,20 +21,22 @@ const productsList = [
     }
 ]
 
-class ProductsList extends React.Component{
-    render(){
-        return(
-            <div className="Item">
-                {productsList.map((product)=>
-                  <div key={product.id.toString()}>
-                    <div className="Product">
-                        <h2>{product.name}</h2>
-                        <p>Price: {product.price}</p>
-                        <p>Description: {product.description}</p>
-                    </div>
-                  </div>      
-                )}
-            </div>
+class ProductsList extends React.Component {
+    render() {
+        return (
+            <section className="section">
+                <div className="container">
+                    {productsList.map((product) =>
+                        <div key={product.id.toString()}>
+                            <div className="Product">
+                                <p>{product.name}</p>
+                                <p className="has-text-success">Price: {product.price}</p>
+                                <p>Description: {product.description}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </section>
         );
     }
 }
