@@ -1,5 +1,10 @@
 import React from 'react';
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 const productsList = [
     {
         id: 0,
@@ -32,6 +37,7 @@ class ProductsList extends React.Component {
                                 <p>{product.name}</p>
                                 <p className="has-text-success">Price: {product.price}</p>
                                 <p>Description: {product.description}</p>
+                                <Link className="button is-rounded" to={`/products/${product.id}`}>Details</Link>
                             </div>
                         </div>
                     )}
