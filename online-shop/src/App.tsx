@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import './App.scss';
 //import Product from './components/Product';
 import ProductsList from './components/ProductsList';
-import ProductDetail from './components/ProductDetail'
+import ProductDetail from './components/ProductDetail';
+import ShoppingCart from './components/ShoppingCart';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,29 +12,26 @@ import {
   Link
 } from "react-router-dom";
 
-/*function App() {
-  return (
-    <div className="App">
-      <ProductsList/>
-    </div>
-  );
-}*/
 
-class App extends Component{
-  render(){
-    return(
+class App extends Component {
+  render() {
+    return (
       <Router>
+        <Link className="button has-text-weight-bold is-large is-info" to={`/cart`}>Shopping cart</Link>
         <Switch>
           <Route path='/products/:id' render={(id) =>
-          <ProductDetail{...id}/>
-        }/>
+            <ProductDetail{...id} />
+          } />
+          <Route path='/cart' >
+            <ShoppingCart />
+          </Route>
           <Route path='/'>
-            <ProductsList/>
+            <ProductsList />
           </Route>
         </Switch>
       </Router>
     );
   }
 }
- 
+
 export default App;
