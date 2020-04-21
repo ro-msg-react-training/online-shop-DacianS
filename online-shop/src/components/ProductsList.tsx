@@ -1,51 +1,93 @@
-import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { readProducts, readProductsSuccess, readProductsError, } from "../actions/products";
+import { ProductsState } from "../store";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
 const PRODUCTS_URL = "http://localhost:4000/products";
 
-interface ProductsListProps { };
-
-interface ProductsListState {
-    items: any[];
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
 }
 
-class ProductsList extends React.Component<ProductsListProps, ProductsListState> {
+interface ProductsListProps { }
 
-    constructor(props: ProductsListProps) {
-        super(props);
-        this.state = {
-            items: []
-        };
-    }
 
-    componentDidMount() {
-        fetch(PRODUCTS_URL)
-            .then(response => response.json())
-            .then(items => this.setState({ items }))
-    }
-
-    render() {
-        return (
-            <section className="section">
-                <div className="container">
-                    {this.state.items.map((product) =>
-                        <div key={product.id.toString()}>
-                            <div className="Product">
-                                <p>{product.name}</p>
-                                <p>{product.category}</p>
-                                <p className="has-text-success">Price: {product.price}</p>
-                                <Link className="button is-rounded" to={`/products/${product.id}`}>Details</Link>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </section>
-        );
-    }
+interface ProductsStateState {
+  products: Product[];
+  loading: boolean;
+  error: string;
 }
 
-export default ProductsList;
+interface ProductsDispatchProps {
+  read: () => void,
+  success: (products: Product[]) => void,
+  error: (error: string) => void;
+}
+
+const mapStateToProps = (state: ProductsState, props: ProductsListProps): ProductsStateState => ({
+
+  products: state.products,
+  loading: state.loading,
+  error: state.error,
+
+})
+
+const mapDispatchToProps = (dispatch: Dispatch, props: ProductsListProps): ProductsDispatchProps => ({
+  // ... normally is an object full of action creators
+
+  read: () => { dispatch(readProducts()); },
+  success: (data) => { dispatch(readProductsSuccess(data)); },
+  error: (error) => { dispatch(readProductsError(error)); }
+
+});
+
+
+class ProductsList extends React.Component<RouteComponentProps & ProductsDispatchProps & ProductsStateState> {
+
+
+  componentDidMount() {
+    this.props.read();
+    fetch(PRODUCTS_URL)
+      .then((response) => {
+        if (!response.ok) this.props.error("Error: " + response.status);
+        else return response.json();
+      })
+      .then((data) => {
+        this.props.success(data);
+      })
+      .catch((error) => {
+        this.props.error(error);
+      });
+  }
+
+  render() {
+    return (
+      <section className="section">
+        <Loader visible={this.props.loading} />
+        <div className="container">
+          {this.props.products.map((product) => (
+            <div key={product.id.toString()}>
+              <div className="Product">
+                <p>{product.name}</p>
+                <p>{product.category}</p>
+                <p className="has-text-success">Price: {product.price}</p>
+                <Link className="button is-rounded" to={`/products/${product.id}`} >Details</Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductsList));
