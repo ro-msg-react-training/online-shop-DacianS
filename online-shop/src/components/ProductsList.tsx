@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { readProducts, readProductsSuccess, readProductsError, } from "../actions/products";
-import { ProductsState } from "../store";
+import { StoreState } from "../store";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Loader from 'react-loader-spinner'
@@ -32,11 +32,11 @@ interface ProductsDispatchProps {
   error: (error: string) => void;
 }
 
-const mapStateToProps = (state: ProductsState, props: ProductsListProps): ProductsStateState => ({
+const mapStateToProps = (state: StoreState, props: ProductsListProps): ProductsStateState => ({
 
-  products: state.products,
-  loading: state.loading,
-  error: state.error,
+  products: state.products.products,
+  loading: state.products.loading,
+  error: state.products.error,
 
 })
 
@@ -70,21 +70,24 @@ class ProductsList extends React.Component<RouteComponentProps & ProductsDispatc
 
   render() {
     return (
-      <section className="section">
-        <Loader visible={this.props.loading} />
-        <div className="container">
-          {this.props.products.map((product) => (
-            <div key={product.id.toString()}>
-              <div className="Product">
-                <p>{product.name}</p>
-                <p>{product.category}</p>
-                <p className="has-text-success">Price: {product.price}</p>
-                <Link className="button is-rounded" to={`/products/${product.id}`} >Details</Link>
+      <div>
+        <Link className="button is-large has-text-weight-bold" to={`/input`}>Add new product</Link>
+        <section className="section">
+          <Loader visible={this.props.loading} />
+          <div className="container">
+            {this.props.products.map((product) =>
+              <div key={product.id.toString()}>
+                <div className="Product">
+                  <p>{product.name}</p>
+                  <p>{product.category}</p>
+                  <p className="has-text-success">Price: {product.price}</p>
+                  <Link className="button is-rounded" to={`/products/${product.id}`} >Details</Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            )}
+          </div>
+        </section>
+      </div >
     );
   }
 }
