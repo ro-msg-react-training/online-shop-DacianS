@@ -4,7 +4,8 @@ import ProductsList from "./components/ProductsList";
 import ProductDetail from "./components/ProductDetail";
 import ShoppingCart from "./components/ShoppingCart";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import ProductInput from "./components/ProductInput";
+import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 
 class App extends Component {
   render() {
@@ -19,8 +20,11 @@ class App extends Component {
           <Route path="/cart">
             <ShoppingCart />
           </Route>
-          <Route path="/input">
-            <ProductInput />
+          <Route path="/add">
+            <AddProduct />
+          </Route>
+          <Route path="/edit">
+            <EditProduct />
           </Route>
           <Route path="/">
             <ProductsList />

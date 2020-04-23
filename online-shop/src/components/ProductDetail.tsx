@@ -10,7 +10,6 @@ import { ProductDetail } from "../actions";
 import { readProduct, deleteProduct, deleteProductSuccess, readProductSuccess, readProductError, deleteProductError } from "../actions/productDetail";
 
 const PRODUCTS_URL = "http://localhost:4000/products/";
-//const cartItems = [];
 
 interface ID {
   id: string;
@@ -83,10 +82,6 @@ class ProductDetails extends React.Component<ProductDetailProps & ProductDetailS
       });
   }
 
-  /*addItem(state: ProductsListState){ 
-        cartItems.push(state);      
-    }*/
-
   render() {
     if (this.props.product) {
       return (
@@ -106,7 +101,7 @@ class ProductDetails extends React.Component<ProductDetailProps & ProductDetailS
           >
             Delete
           </button>
-          <Link className="button is-rounded has-text-weight-bold" to={`/input`}>Edit </Link>
+          <Link className="button is-rounded has-text-weight-bold" to={`/edit`}>Edit </Link>
         </div>
       );
     }

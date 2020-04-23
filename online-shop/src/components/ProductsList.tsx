@@ -71,7 +71,7 @@ class ProductsList extends React.Component<RouteComponentProps & ProductsDispatc
   render() {
     return (
       <div>
-        <Link className="button is-large has-text-weight-bold" to={`/input`}>Add new product</Link>
+        <Link className="button is-large has-text-weight-bold" to={`/add`}>Add new product</Link>
         <section className="section">
           <Loader visible={this.props.loading} />
           <div className="container">

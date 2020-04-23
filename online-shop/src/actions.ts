@@ -10,6 +10,14 @@ export interface ProductDetail extends Product {
   description: string
 }
 
+export interface ProductInput {
+  id?: number;
+  name: string;
+  category: string;
+  price: number;
+  description: string;
+}
+
 export const READ_PRODUCTS = "READ_PRODUCTS";
 export const READ_PRODUCTS_SUCCESS = "READ_PRODUCTS_SUCCESS";
 export const READ_PRODUCTS_ERROR = "READ_PRODUCTS_ERROR";
@@ -19,6 +27,12 @@ export const READ_PRODUCT_DETAILS_ERROR = "READ_PRODUCT_DETAILS_ERROR";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const DELETE_PRODUCT_SUCCESS = "DELETE_PRODUCT_SUCCESS";
 export const DELETE_PRODUCT_ERROR = "DELETE_PRODUCT_ERROR";
+export const GET_PRODUCT_DATA = "GET_PRODUCT_DATA";
+export const SAVE_PRODUCT = "SAVE_PRODUCT";
+export const SAVE_PRODUCT_SUCCESS = "SAVE_PRODUCT_SUCCESS";
+export const SAVE_PRODUCT_ERROR = "SAVE_PRODUCT_ERROR";
+export const CANCEL_PRODUCT = "CANCEL_PRODUCT"
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT"
 
 export interface ReadProducts {
   type: typeof READ_PRODUCTS;
@@ -63,6 +77,36 @@ export interface DeleteProductError {
 
 }
 
+export interface GetProductData {
+  type: typeof GET_PRODUCT_DATA;
+  product: ProductDetail;
+}
+
+export interface SaveProduct {
+  type: typeof SAVE_PRODUCT;
+  productData: ProductInput;
+}
+
+export interface SaveProductSuccess {
+  type: typeof SAVE_PRODUCT_SUCCESS;
+}
+
+export interface SaveProductError {
+  type: typeof SAVE_PRODUCT_ERROR;
+  error: string;
+}
+
+export interface CancelProduct {
+  type: typeof CANCEL_PRODUCT;
+}
+
+export interface UpdateProduct {
+  type: typeof UPDATE_PRODUCT;
+  productData: ProductInput;
+}
+
 export type ProductsAction = ReadProducts | ReadProductsSuccess | ReadProductsError;
 
 export type ProductDetailAction = ReadProductDetail | ReadProductDetailSuccess | ReadProductDetailError | DeleteProduct | DeleteProductSuccess | DeleteProductError;
+
+export type ProductInputAction = GetProductData | SaveProduct | SaveProductSuccess | SaveProductError | CancelProduct | UpdateProduct;

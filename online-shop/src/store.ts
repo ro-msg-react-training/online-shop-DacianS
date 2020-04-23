@@ -1,10 +1,12 @@
-import { configureStore, combineReducers, createStore } from '@reduxjs/toolkit'
+import { combineReducers, createStore } from '@reduxjs/toolkit'
 import { productsReducer } from './reducers/products';
 import { productDetailReducer } from './reducers/productDetail'
+import { productInputReducer } from './reducers/productInput'
 
 const rootReducer = combineReducers({
     products: productsReducer,
-    productDetail: productDetailReducer
+    productDetail: productDetailReducer,
+    productInput: productInputReducer
 });
 const store = createStore(rootReducer);
 
