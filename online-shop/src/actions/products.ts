@@ -20,3 +20,7 @@ export const readProductsError = (error: string): ProductsAction => ({
     type: "READ_PRODUCTS_ERROR",
     error
 });
+
+export const fetchProducts = (): ProductsAction => ({
+    type: "FETCH_PRODUCTS"
+});

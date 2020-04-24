@@ -1,14 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { readProducts, readProductsSuccess, readProductsError, } from "../actions/products";
+import { readProducts, readProductsSuccess, readProductsError, fetchProducts } from "../actions/products";
 import { StoreState } from "../store";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-
-const PRODUCTS_URL = "http://localhost:4000/products";
 
 interface Product {
   id: number;
@@ -30,6 +28,7 @@ interface ProductsDispatchProps {
   read: () => void,
   success: (products: Product[]) => void,
   error: (error: string) => void;
+  fetch: () => void;
 }
 
 const mapStateToProps = (state: StoreState, props: ProductsListProps): ProductsStateState => ({
@@ -45,7 +44,8 @@ const mapDispatchToProps = (dispatch: Dispatch, props: ProductsListProps): Produ
 
   read: () => { dispatch(readProducts()); },
   success: (data) => { dispatch(readProductsSuccess(data)); },
-  error: (error) => { dispatch(readProductsError(error)); }
+  error: (error) => { dispatch(readProductsError(error)); },
+  fetch: () => { dispatch(fetchProducts()); }
 
 });
 
@@ -54,18 +54,7 @@ class ProductsList extends React.Component<RouteComponentProps & ProductsDispatc
 
 
   componentDidMount() {
-    this.props.read();
-    fetch(PRODUCTS_URL)
-      .then((response) => {
-        if (!response.ok) this.props.error("Error: " + response.status);
-        else return response.json();
-      })
-      .then((data) => {
-        this.props.success(data);
-      })
-      .catch((error) => {
-        this.props.error(error);
-      });
+    this.props.fetch();
   }
 
   render() {

@@ -7,9 +7,7 @@ import { Dispatch } from "redux";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { ProductDetail } from "../actions";
-import { readProduct, deleteProduct, deleteProductSuccess, readProductSuccess, readProductError, deleteProductError } from "../actions/productDetail";
-
-const PRODUCTS_URL = "http://localhost:4000/products/";
+import { readProduct, deleteProduct, deleteProductSuccess, readProductSuccess, readProductError, deleteProductError, fetchProductDetail, fetchDeleteProduct } from "../actions/productDetail";
 
 interface ID {
   id: string;
@@ -27,9 +25,11 @@ interface ProductDetailDispatchProps {
   read: () => void,
   success: (products: ProductDetail) => void,
   error: (error: string) => void,
+  fetch: (id: number) => void,
   delete: (id: number) => void,
   deleteSuccess: () => void,
   deleteError: (error: string) => void;
+  fetchDelete: (id: number) => void;
 }
 
 const mapStateToProps = (state: StoreState, props: ProductDetailProps): ProductDetailState => ({
@@ -44,42 +44,22 @@ const mapDispatchToProps = (dispatch: Dispatch, props: ProductDetailProps): Prod
   read: () => { dispatch(readProduct()); },
   success: (data) => { dispatch(readProductSuccess(data)); },
   error: (error) => { dispatch(readProductError(error)); },
+  fetch: (id) => { dispatch(fetchProductDetail(id)); },
   delete: (id) => { dispatch(deleteProduct(id)); },
   deleteSuccess: () => { dispatch(deleteProductSuccess()); },
-  deleteError: (error) => { dispatch(deleteProductError(error)); }
+  deleteError: (error) => { dispatch(deleteProductError(error)); },
+  fetchDelete: (id) => { dispatch(fetchDeleteProduct(id)); }
 });
 
 class ProductDetails extends React.Component<ProductDetailProps & ProductDetailState & ProductDetailDispatchProps> {
 
   componentDidMount() {
-    this.props.read();
-    fetch(PRODUCTS_URL + this.props.match.params.id)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        else this.props.error("Error " + response.status)
-      })
-      .then((data) => {
-        this.props.success(data);
-      })
-      .catch((error) => {
-        this.props.error(error);
-      });
+    this.props.fetch(+this.props.match.params.id);
   }
 
   onDelete() {
-    fetch(PRODUCTS_URL + this.props.match.params.id, {
-      method: "DELETE",
-    }).then((response) => {
-      if (response.ok) {
-        this.props.history.push("/");
-      }
-      else this.props.error("Error " + response.status)
-    })
-      .catch((error) => {
-        this.props.error(error);
-      });
+    this.props.fetchDelete(+this.props.match.params.id);
+    this.props.history.push("/");
   }
 
   render() {

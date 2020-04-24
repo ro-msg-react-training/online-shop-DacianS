@@ -31,6 +31,10 @@ function productDetailReducer(state = ProductDetailInitialState, action: Product
                 loading: false,
                 error: action.error
             };
+        case "FETCH_PRODUCT_DETAIL":
+            return {
+                ...state
+            };
         case "DELETE_PRODUCT":
             return {
                 ...state,
@@ -48,6 +52,10 @@ function productDetailReducer(state = ProductDetailInitialState, action: Product
                 ...state,
                 loading: false,
                 error: action.error
+            }
+        case "FETCH_DELETE_PRODUCT":
+            return {
+                ...state
             }
         default:
             return state;

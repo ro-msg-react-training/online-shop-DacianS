@@ -14,6 +14,11 @@ export const readProductError = (error: string): ProductDetailAction => ({
     error
 });
 
+export const fetchProductDetail = (id: number): ProductDetailAction => ({
+    type: "FETCH_PRODUCT_DETAIL",
+    id
+})
+
 export const deleteProduct = (id: number): ProductDetailAction => ({
     type: "DELETE_PRODUCT",
     id
@@ -27,3 +32,8 @@ export const deleteProductError = (error: string): ProductDetailAction => ({
     type: "DELETE_PRODUCT_ERROR",
     error
 });
+
+export const fetchDeleteProduct = (id: number): ProductDetailAction => ({
+    type: "FETCH_DELETE_PRODUCT",
+    id
+})

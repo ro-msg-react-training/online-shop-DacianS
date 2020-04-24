@@ -39,6 +39,10 @@ function productsReducer(state = initialState, action: ProductsAction): Products
                 loading: false,
                 error: action.error
             };
+        case 'FETCH_PRODUCTS':
+            return {
+                ...state
+            }
         default:
             return state;
     }
