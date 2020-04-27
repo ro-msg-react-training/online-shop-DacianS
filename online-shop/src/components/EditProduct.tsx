@@ -4,9 +4,8 @@ import { StoreState } from "../store";
 import { connect } from "react-redux";
 import ProductInputs from "./ProductInputs";
 import { ProductInput, ProductDetail } from "../actions";
-
-const PRODUCTS_URL = "http://localhost:4000/products/";
-
+import { fetchEditProduct } from "../actions/productInput";
+import { Dispatch } from "redux";
 
 interface EditProductProps { }
 
@@ -14,25 +13,30 @@ interface LinkStateProps {
     productDetails?: ProductDetail;
 }
 
+interface ProductEditState {
+    product: ProductInput;
+    loading: boolean;
+    error: string;
+}
+
+interface ProductEditDispatchProps {
+    edit: (productData: ProductInput) => void,
+}
+
+
 const mapStateToProps = (state: StoreState, props: EditProductProps): LinkStateProps => ({
     productDetails: state.productDetail.product
 });
 
-class EditProduct extends React.Component<RouteComponentProps & EditProductProps & LinkStateProps>{
+const mapDispatchToProps = (dispatch: Dispatch, props: EditProductProps): ProductEditDispatchProps => ({
+    edit: (data) => { dispatch(fetchEditProduct(data)) }
+});
 
-    onSave(editProduct: ProductInput) {
-        fetch((PRODUCTS_URL + editProduct.id), {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(editProduct)
-        })
-            .then((response) => {
-                if (!response.ok) alert("error");
-                else alert("Success");
-            })
-            .catch((error) => { alert(error); });
+class EditProduct extends React.Component<RouteComponentProps & EditProductProps & LinkStateProps & ProductEditDispatchProps>{
+
+    onSave(editProduct: ProductInput, props: RouteComponentProps & EditProductProps & ProductEditState & ProductEditDispatchProps) {
+        props.edit(editProduct);
+        props.history.push('/');
     }
 
 
@@ -43,4 +47,4 @@ class EditProduct extends React.Component<RouteComponentProps & EditProductProps
     }
 }
 
-export default connect(mapStateToProps)(withRouter(EditProduct));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProduct));

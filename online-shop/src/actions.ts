@@ -34,8 +34,10 @@ export const GET_PRODUCT_DATA = "GET_PRODUCT_DATA";
 export const SAVE_PRODUCT = "SAVE_PRODUCT";
 export const SAVE_PRODUCT_SUCCESS = "SAVE_PRODUCT_SUCCESS";
 export const SAVE_PRODUCT_ERROR = "SAVE_PRODUCT_ERROR";
-export const CANCEL_PRODUCT = "CANCEL_PRODUCT"
-export const UPDATE_PRODUCT = "UPDATE_PRODUCT"
+export const CANCEL_PRODUCT = "CANCEL_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const FETCH_ADD_PRODUCT = "FETCH_ADD_PRODUCT";
+export const FETCH_EDIT_PRODUCT = "FETCH_EDIT_PRODUCT";
 
 export interface ReadProducts {
   type: typeof READ_PRODUCTS;
@@ -121,8 +123,18 @@ export interface UpdateProduct {
   productData: ProductInput;
 }
 
+export interface FetchAddProduct {
+  type: typeof FETCH_ADD_PRODUCT;
+  productData: ProductInput;
+}
+
+export interface FetchEditProduct {
+  type: typeof FETCH_EDIT_PRODUCT;
+  productData: ProductInput;
+}
+
 export type ProductsAction = ReadProducts | ReadProductsSuccess | ReadProductsError | FetchProducts;
 
 export type ProductDetailAction = ReadProductDetail | ReadProductDetailSuccess | ReadProductDetailError | FetchProductDetail | DeleteProduct | DeleteProductSuccess | DeleteProductError | FetchDeleteProduct;
 
-export type ProductInputAction = GetProductData | SaveProduct | SaveProductSuccess | SaveProductError | CancelProduct | UpdateProduct;
+export type ProductInputAction = GetProductData | SaveProduct | SaveProductSuccess | SaveProductError | CancelProduct | UpdateProduct | FetchAddProduct | FetchEditProduct;

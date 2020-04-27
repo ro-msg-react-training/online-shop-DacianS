@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { ProductDetail, ProductInput } from "../actions";
-import { getProduct, saveProduct, saveProductSuccess, saveProductError, cancelProduct, updateProduct } from "../actions/productInput";
+import { getProduct, saveProduct, saveProductSuccess, saveProductError, cancelProduct, updateProduct, fetchAddProduct, fetchEditProduct } from "../actions/productInput";
 
 interface ProductInputState {
     product: ProductInput;
@@ -16,16 +16,18 @@ interface ProductInputState {
 
 interface ProductInputProps {
     productDetails?: ProductDetail;
-    onSave: (product: ProductInput) => void;
+    onSave: (product: ProductInput, props: RouteComponentProps & ProductInputProps & ProductInputState & ProductDetailDispatchProps) => void;
 }
 
-interface ProductDetailDispatchProps {
+export interface ProductDetailDispatchProps {
     get: (product: ProductDetail) => void,
     save: (productData: ProductInput) => void,
     success: () => void,
     error: (error: string) => void,
     cancel: () => void,
-    update: (productData: ProductInput) => void
+    update: (productData: ProductInput) => void,
+    add: (productData: ProductInput) => void,
+    edit: (productData: ProductInput) => void,
 }
 
 const mapStateToProps = (state: StoreState, props: ProductInputProps): ProductInputState => ({
@@ -42,7 +44,9 @@ const mapDispatchToProps = (dispatch: Dispatch, props: ProductInputProps): Produ
     success: () => { dispatch(saveProductSuccess()); },
     error: (error) => { dispatch(saveProductError(error)); },
     cancel: () => { dispatch(cancelProduct()); },
-    update: (data) => { dispatch(updateProduct(data)); }
+    update: (data) => { dispatch(updateProduct(data)); },
+    add: (data) => { dispatch(fetchAddProduct(data)) },
+    edit: (data) => { dispatch(fetchEditProduct(data)) }
 });
 
 
@@ -55,7 +59,7 @@ class ProductInputs extends React.Component<RouteComponentProps & ProductInputPr
 
     handleSave(event: any) {
         event.preventDefault();
-        this.props.onSave(this.props.product)
+        this.props.onSave(this.props.product, this.props)
     }
 
     handleChange(event: any) {

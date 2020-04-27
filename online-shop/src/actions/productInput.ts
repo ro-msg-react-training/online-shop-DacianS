@@ -27,3 +27,13 @@ export const updateProduct = (productData: ProductInput): ProductInputAction => 
     type: "UPDATE_PRODUCT",
     productData
 });
+
+export const fetchAddProduct = (productData: ProductInput): ProductInputAction => ({
+    type: "FETCH_ADD_PRODUCT",
+    productData
+});
+
+export const fetchEditProduct = (productData: ProductInput): ProductInputAction => ({
+    type: "FETCH_EDIT_PRODUCT",
+    productData
+});

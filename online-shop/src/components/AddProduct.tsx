@@ -2,24 +2,40 @@ import React from "react";
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import ProductInputs from "./ProductInputs";
 import { ProductInput } from "../actions";
+import { fetchAddProduct } from "../actions/productInput";
+import { StoreState } from "../store";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
-const PRODUCTS_URL = "http://localhost:4000/products/";
+interface ProductAddProps { }
 
-class AddProduct extends React.Component<RouteComponentProps>{
+interface ProductAddState {
+    product: ProductInput;
+    loading: boolean;
+    error: string;
+}
 
-    onSave(newProduct: ProductInput) {
-        fetch(PRODUCTS_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newProduct)
-        })
-            .then((response) => {
-                if (!response.ok) alert("error");
-                else alert("New product created");
-            })
-            .catch((error) => { alert(error); });
+interface ProductAddDispatchProps {
+    add: (productData: ProductInput) => void,
+}
+
+const mapStateToProps = (state: StoreState, props: ProductAddProps): ProductAddState => ({
+
+    product: state.productInput.productData,
+    loading: state.productInput.loading,
+    error: state.productInput.error,
+
+})
+
+const mapDispatchToProps = (dispatch: Dispatch, props: ProductAddProps): ProductAddDispatchProps => ({
+    add: (data) => { dispatch(fetchAddProduct(data)) }
+});
+
+class AddProduct extends React.Component<RouteComponentProps & ProductAddProps & ProductAddDispatchProps & ProductAddState>{
+
+    onSave(newProduct: ProductInput, props: RouteComponentProps & ProductAddProps & ProductAddState & ProductAddDispatchProps) {
+        props.add(newProduct);
+        props.history.push('/');
     }
 
 
@@ -32,4 +48,4 @@ class AddProduct extends React.Component<RouteComponentProps>{
     }
 }
 
-export default withRouter(AddProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AddProduct));

@@ -35,6 +35,7 @@ function productInputReducer(state = ProductInputInitialState, action: ProductIn
         case "SAVE_PRODUCT":
             return {
                 ...state,
+                productData: action.productData,
                 loading: true,
                 error: ''
             };
@@ -59,6 +60,16 @@ function productInputReducer(state = ProductInputInitialState, action: ProductIn
                 ...state,
                 productData: action.productData,
                 error: ''
+            }
+        case "FETCH_ADD_PRODUCT":
+            return {
+                ...state,
+                productData: action.productData
+            }
+        case "FETCH_EDIT_PRODUCT":
+            return {
+                ...state,
+                productData: action.productData
             }
         default:
             return state
