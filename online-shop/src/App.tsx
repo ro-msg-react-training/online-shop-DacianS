@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.scss";
-import ProductsList from "./components/ProductsList";
+import ProductList from "./components/ProductList/ProductsList";
 import ProductDetail from "./components/ProductDetail";
 import ShoppingCart from "./components/ShoppingCart";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -27,7 +27,7 @@ class App extends Component {
             <EditProduct />
           </Route>
           <Route path="/">
-            <ProductsList />
+            <ProductList />
           </Route>
         </Switch>
       </Router>
