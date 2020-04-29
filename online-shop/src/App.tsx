@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.scss";
 import ProductList from "./components/ProductList/ProductsList";
-//import ProductDetail from "./components/ProductDetail";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ShoppingCart from "./components/ShoppingCart";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";

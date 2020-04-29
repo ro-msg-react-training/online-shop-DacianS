@@ -7,6 +7,7 @@ import { Dispatch } from "redux";
 import { ProductDetail } from "../../actions";
 import { readProduct, deleteProduct, deleteProductSuccess, readProductSuccess, readProductError, deleteProductError, fetchProductDetail, fetchDeleteProduct } from "../../actions/productDetail";
 import { ProductDetailView, IProductDetail } from "./ProductDetailView";
+import { loader } from "../Loader"
 
 interface ID {
     id: string;
@@ -76,7 +77,8 @@ const ProductDetailsComp = compose<ProductDetailProps & ProductDetailState & Pro
         mapStateToProps,
         mapDispatchToProps
     ),
-    onComponentDidMountList
+    onComponentDidMountList,
+    loader
 )
     (ProductDetails);
 

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { lifecycle, compose } from "recompose"
 import { ProductListView, ProductsListState } from "./ProductListView"
+import { loader } from "../Loader"
 
 interface Product {
   id: number;
@@ -64,7 +65,8 @@ const ProductList = compose<RouteComponentProps & ProductsDispatchProps & Produc
     mapStateToProps,
     mapDispatchToProps
   ),
-  onComponentDidMountList
+  onComponentDidMountList,
+  loader
 )
   (ProductsList)
 
