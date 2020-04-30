@@ -18,6 +18,11 @@ export interface ProductInput {
   description: string;
 }
 
+export interface IProductSales {
+  category: string,
+  sales: number
+}
+
 export const READ_PRODUCTS = "READ_PRODUCTS";
 export const READ_PRODUCTS_SUCCESS = "READ_PRODUCTS_SUCCESS";
 export const READ_PRODUCTS_ERROR = "READ_PRODUCTS_ERROR";
@@ -38,6 +43,10 @@ export const CANCEL_PRODUCT = "CANCEL_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const FETCH_ADD_PRODUCT = "FETCH_ADD_PRODUCT";
 export const FETCH_EDIT_PRODUCT = "FETCH_EDIT_PRODUCT";
+export const FETCH_SALES = "FETCH_SALES";
+export const READ_SALES = "READ_SALES";
+export const READ_SALES_SUCCESS = "READ_SALES_SUCCESS";
+export const READ_SALES_ERROR = "READ_SALES_ERROR"
 
 export interface ReadProducts {
   type: typeof READ_PRODUCTS;
@@ -133,8 +142,28 @@ export interface FetchEditProduct {
   productData: ProductInput;
 }
 
+export interface ReadSales {
+  type: typeof READ_SALES;
+}
+
+export interface ReadSalesSuccess {
+  type: typeof READ_SALES_SUCCESS;
+  sales: IProductSales[];
+}
+
+export interface ReadSalesError {
+  type: typeof READ_SALES_ERROR;
+  error: string;
+}
+
+export interface FetchSales {
+  type: typeof FETCH_SALES;
+}
+
 export type ProductsAction = ReadProducts | ReadProductsSuccess | ReadProductsError | FetchProducts;
 
 export type ProductDetailAction = ReadProductDetail | ReadProductDetailSuccess | ReadProductDetailError | FetchProductDetail | DeleteProduct | DeleteProductSuccess | DeleteProductError | FetchDeleteProduct;
 
 export type ProductInputAction = GetProductData | SaveProduct | SaveProductSuccess | SaveProductError | CancelProduct | UpdateProduct | FetchAddProduct | FetchEditProduct;
+
+export type SalesChartsAction = ReadSales | ReadSalesSuccess | ReadSalesError | FetchSales;

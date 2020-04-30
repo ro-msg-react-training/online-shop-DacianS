@@ -1,6 +1,7 @@
 import { all, takeLatest, put, call } from "redux-saga/effects";
 import { readProductsSuccess } from "../actions/products"
-import { FETCH_PRODUCTS, FETCH_PRODUCT_DETAIL, FETCH_DELETE_PRODUCT, FETCH_ADD_PRODUCT, FETCH_EDIT_PRODUCT, FetchProductDetail, FetchAddProduct, FetchEditProduct } from "../actions"
+import { readSalesSuccess } from "../actions/productsCharts"
+import { FETCH_PRODUCTS, FETCH_PRODUCT_DETAIL, FETCH_DELETE_PRODUCT, FETCH_ADD_PRODUCT, FETCH_EDIT_PRODUCT, FETCH_SALES, FetchProductDetail, FetchAddProduct, FetchEditProduct } from "../actions"
 import { readProductSuccess, deleteProduct } from "../actions/productDetail"
 import { saveProduct } from "../actions/productInput"
 
@@ -56,6 +57,13 @@ function* fetchEditProduct(action: FetchEditProduct) {
         .catch((error) => { alert(error); });
 }
 
+function* fetchSales() {
+    const data = yield fetch("http://localhost:4000/sales", { method: "GET" })
+        .then(response => response.json())
+        .then(result => { return result; });
+
+    yield put(readSalesSuccess(data));
+}
 
 function* actionWatcher() {
     yield takeLatest(FETCH_PRODUCTS, fetchProductsList);
@@ -63,6 +71,7 @@ function* actionWatcher() {
     yield takeLatest(FETCH_DELETE_PRODUCT, fetchDeleteProduct);
     yield takeLatest(FETCH_ADD_PRODUCT, fetchAddProduct);
     yield takeLatest(FETCH_EDIT_PRODUCT, fetchEditProduct);
+    yield takeLatest(FETCH_SALES, fetchSales)
 }
 
 export default function* rootSaga() {
